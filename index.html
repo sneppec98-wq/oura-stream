@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oura</title>
+    <meta name="description" content="Oura: Tonton koleksi film dan serial dari Firebase, Google Drive, dan Cloudflare R2 langsung di desktop." />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+
+  <body>
+    <!-- Native window decorations are used; removed custom titlebar -->
+    <!-- App layout (separate from titlebar now) -->
+    <div class="app-layout">
+      <div class="app-body">
+        <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <div class="brand" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 10px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 12px; gap: 10px;">
+          <img src="/src/assets/Logo.png" alt="Logo" style="width: 120px; height: auto; object-fit: contain; flex-shrink: 0;" />
+          <button id="btn-toggle-sidebar-collapse" class="btn btn-ghost sidebar-collapse-btn" type="button" title="Ciutkan sidebar" style="width: 36px; height: 36px; min-width: 36px; display: flex; align-items: center; justify-content: center; padding: 0; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); color: var(--text-secondary);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+
+        <nav class="nav-menu">
+          <button id="nav-home" class="nav-item active">
+            <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span class="nav-label">Home</span>
+          </button>
+          <div class="nav-group" id="group-movies">
+            <button class="nav-item has-submenu" id="nav-movies-group">
+              <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+              <span class="nav-label">Movies</span>
+              <svg class="nav-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="nav-submenu">
+              <button id="nav-movies" class="nav-item sub-item">
+                <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect></svg>
+                <span class="nav-label">All Movies</span>
+              </button>
+              <button id="nav-movie-series" class="nav-item sub-item">
+                <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                <span class="nav-label">Movie Series</span>
+              </button>
+              <button id="nav-indonesia" class="nav-item sub-item">
+                <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"></path><path d="M3 6h18"></path><path d="M3 18h18"></path></svg>
+                <span class="nav-label">Indonesia</span>
+              </button>
+              <button id="nav-anime" class="nav-item sub-item">
+                <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L14.5 8.5L21.5 9.2L16 13.5L17.6 20.5L12 16.8L6.4 20.5L8 13.5L2.5 9.2L9.5 8.5L12 2Z"></path>
+                </svg>
+                <span class="nav-label">Anime</span>
+              </button>
+            </div>
+          </div>
+          <button id="nav-series" class="nav-item">
+            <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="16" x2="12" y2="21"></line></svg>
+            <span class="nav-label">Series</span>
+          </button>
+          <button id="nav-matcha" class="nav-item">
+            <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 9.8a7 7 0 0 1-9 8.2z"></path>
+              <path d="M9 22c0-3 2-3 2-6"></path>
+            </svg>
+            <span class="nav-label">Matcha</span>
+          </button>
+          <div class="nav-group" id="group-studio">
+            <button class="nav-item has-submenu" id="nav-studio-group">
+              <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span class="nav-label">Studio</span>
+              <svg class="nav-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="nav-submenu">
+              <button id="nav-downloads" class="nav-item sub-item">
+                <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <span class="nav-label">Upload</span>
+              </button>
+              <button id="nav-drafts" class="nav-item sub-item">
+                <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <span class="nav-label">Drafts</span>
+              </button>
+            </div>
+          </div>
+          <button id="nav-settings" class="nav-item">
+            <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span class="nav-label">Settings</span>
+          </button>
+        </nav>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Top Toolbar -->
+        <header class="top-bar">
+          <div class="search-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="search-input" placeholder="Search for movies, series, people..." />
+          </div>
+          <div class="top-bar-actions">
+            <!-- Notifications Button -->
+            <button class="topbar-icon-btn notifications-btn" id="btn-notifications" title="Notifications">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+            </button>
+
+            <!-- Profile Widget -->
+            <div class="profile-menu-container">
+              <div class="user-profile-widget" id="user-profile-menu" title="Menu Profile">
+                <img class="profile-avatar" id="user-avatar-img" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Alex" alt="Avatar" />
+                <span class="profile-name" id="user-display-name">Alex Morgan</span>
+                <svg class="profile-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+              <div class="profile-dropdown glass" id="profile-dropdown-menu" style="display: none;">
+                <div class="dropdown-user-info">
+                  <span class="dropdown-name" id="dropdown-display-name">Alex Morgan</span>
+                  <span class="dropdown-email" id="dropdown-user-email">alex@oura.app</span>
+                </div>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item logout" id="btn-logout-action">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                  </svg>
+                  Keluar
+                </button>
+              </div>
+            </div>
+
+            <!-- Hidden original elements for main.ts compatibility -->
+            <span id="firebase-user-info" class="firebase-user-badge" style="display:none;"></span>
+            <button id="btn-firebase-login" class="btn-secondary btn-small" style="display:none;">Masuk Firebase</button>
+          </div>
+        </header>
+
+        <!-- View Container -->
+        <div class="view-viewport">
+          <!-- LIBRARY VIEW -->
+          <section id="view-library" class="app-view active">
+            <div class="library-layout-grid">
+              <!-- Middle Main Panel -->
+              <div class="library-main-panel">
+                <div class="view-header">
+                  <h1 class="view-title">Koleksi Media</h1>
+                  <div class="matcha-tabs" id="matcha-tabs" style="display: none; gap: 6px; align-items: center; justify-content: space-between; width: 100%;">
+                    <div style="display: flex; gap: 6px; align-items: center;">
+                      <button class="filter-tab active" data-matcha="bl_series">BL Series</button>
+                      <button class="filter-tab" data-matcha="bl_movie">BL Movie</button>
+                      <button class="filter-tab" data-matcha="secret">Koleksi</button>
+                      
+                      <!-- Bulk delete controls, hidden by default -->
+                      <div id="matcha-bulk-controls" style="display: none; gap: 8px; align-items: center; margin-left: 12px; border-left: 1px solid rgba(255,255,255,0.15); padding-left: 12px;">
+                        <button class="btn btn-secondary btn-small" id="btn-matcha-select-all" style="font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer;">Pilih Semua</button>
+                        <button class="btn btn-small" id="btn-matcha-delete-selected" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #FCA5A5; font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; display: none;">Hapus Terpilih (0)</button>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                      <button class="btn btn-secondary btn-small" id="btn-matcha-manage-toggle" style="font-size: 12px; padding: 6px 12px; border-radius: 20px; cursor: pointer;">✏️ Kelola</button>
+                      <button class="btn btn-primary btn-small" id="btn-upload-matcha" style="font-size: 12px; padding: 6px 16px; border-radius: 20px; background: var(--accent-gradient); border: none; cursor: pointer; color: #fff;">+ Tambah Matcha</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Loading State (Skeleton) -->
+                <div id="library-loading" class="library-loading skeleton-grid" style="display:none; width: 100%; padding: 0;">
+                  <div class="skeleton-card"></div>
+                  <div class="skeleton-card"></div>
+                  <div class="skeleton-card"></div>
+                  <div class="skeleton-card"></div>
+                  <div class="skeleton-card"></div>
+                  <div class="skeleton-card"></div>
+                  <div class="skeleton-card"></div>
+                  <div class="skeleton-card"></div>
+                  <div class="skeleton-card"></div>
+                  <div class="skeleton-card"></div>
+                </div>
+
+                <!-- Hero Banner -->
+                <div id="hero-banner" class="hero-banner" style="display: none;"></div>
+
+                <!-- Streaming Rows (Netflix-style) -->
+                <div class="streaming-rows" id="streaming-rows">
+                  <!-- Continue Watching -->
+                  <div class="media-row-section" id="row-continue-watching" style="display: none;">
+                    <div class="row-header-wrapper">
+                      <h2 class="row-title">Continue Watching</h2>
+                      <div class="row-nav-arrows">
+                        <button class="row-nav-btn prev" aria-label="Previous">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button class="row-nav-btn next" aria-label="Next">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="row-scroller" id="scroller-continue-watching"></div>
+                  </div>
+
+                  <!-- Films Row (Trending Now) -->
+                  <div class="media-row-section" id="row-movies" style="display: none;">
+                    <div class="row-header-wrapper">
+                      <h2 class="row-title">Baru Diupdate</h2>
+                      <div class="row-nav-arrows">
+                        <button class="row-nav-btn prev" aria-label="Previous">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button class="row-nav-btn next" aria-label="Next">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="row-scroller" id="scroller-movies"></div>
+                  </div>
+
+                  <!-- Series Row -->
+                  <div class="media-row-section" id="row-series" style="display: none;">
+                    <div class="row-header-wrapper">
+                      <h2 class="row-title">Serial TV</h2>
+                      <div class="row-nav-arrows">
+                        <button class="row-nav-btn prev" aria-label="Previous">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button class="row-nav-btn next" aria-label="Next">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="row-scroller" id="scroller-series"></div>
+                  </div>
+
+                  <!-- All Library Grid -->
+                  <div class="media-row-section" id="row-all-media">
+                    <h2 class="row-title" id="all-media-title">Semua Koleksi</h2>
+                    <div class="media-grid" id="media-grid"></div>
+                    <div class="pagination-controls" id="pagination-controls"></div>
+                  </div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="empty-library" style="display: none;">
+                  <div class="empty-icon">🎬</div>
+                  <h3>Pustaka Masih Kosong</h3>
+                  <p>Belum ada konten yang tersedia. Tambahkan konten melalui <strong>Oura Web Admin</strong>, lalu klik Refresh.</p>
+                  <button id="btn-empty-refresh" class="btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 .49-3.47"></path></svg>
+                    Refresh Sekarang
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- UPLOAD VIEW -->
+          <section id="view-upload" class="app-view">
+            <div class="upload-container">
+              <div class="upload-header" style="margin-bottom: 16px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <h1 style="font-size: 20px; font-weight: 700; color: #fff; margin: 0;">Upload Media Baru</h1>
+                  <p style="font-size: 13px; color: var(--text-secondary); margin: 4px 0 0 0;">Lengkapi formulir untuk menambahkan konten ke pustaka.</p>
+                </div>
+                <button type="button" class="btn btn-ghost" id="btn-upload-cancel" style="padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-subtle); cursor: pointer; color: #fff; display: flex; align-items: center; gap: 6px;">✕ <span>Batal</span></button>
+              </div>
+
+              <div class="upload-tabs-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px;">
+                <div class="upload-tabs" id="upload-tabs" style="display: flex; gap: 10px;">
+                  <button type="button" class="upload-tab btn btn-primary active" data-upload-tab="info">Informasi Media</button>
+                  <button type="button" class="upload-tab btn btn-ghost" data-upload-tab="content">Input File</button>
+                </div>
+                <div class="upload-actions-top" style="display: flex; gap: 10px; align-items: center; justify-content: flex-end; flex-wrap: wrap;">
+                  <div id="up-status-group" style="display: flex; gap: 6px; align-items: center; padding: 0 8px; border-right: 1px solid var(--border-subtle);">
+                    <label style="font-size: 12px; color: var(--text-secondary); white-space: nowrap;">Status:</label>
+                    <button type="button" class="btn btn-primary" data-status="draft" style="padding: 6px 12px; border-radius: 6px; font-size: 12px; border: 1px solid var(--border-medium); background: transparent; color: #fff; cursor: pointer; white-space: nowrap;">📋 Draft</button>
+                    <button type="button" class="btn btn-ghost active" data-status="published" style="padding: 6px 12px; border-radius: 6px; font-size: 12px; border: 1px solid var(--accent); background: var(--accent); color: #000; cursor: pointer; white-space: nowrap; font-weight: 600;">✓ Publish</button>
+                  </div>
+                  <button type="button" id="btn-add-episode" class="btn btn-ghost" style="padding: 10px 14px; border-radius: 8px; border: 1px dashed var(--border-medium); cursor: pointer; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <span>+ Tambah File</span>
+                  </button>
+                  <button type="button" id="btn-auto-detect-r2" class="btn btn-ghost" style="padding: 10px 14px; border-radius: 8px; border: 1px dashed var(--border-medium); cursor: pointer; color: #10b981; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <span>🎬 Auto-detect dari R2</span>
+                  </button>
+                  <button type="button" class="btn btn-success" id="btn-upload-submit" style="padding: 10px 14px; border-radius: 8px; font-weight: 600; font-size: 13px; background: var(--accent-gradient); border: none; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <span>Publikasikan Konten</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="upload-grid-layout" id="upload-grid-layout" style="display: block; width: 100%; gap: 0; min-height: auto;">
+                <!-- Left Panel: Info & Poster -->
+                <div class="upload-tab-panel" id="upload-tab-info" style="display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 12px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.01); min-height: 0;">
+                  <h3 style="font-size: 14px; font-weight: 600; color: #fff; margin: 0; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;">ℹ Detail Media</h3>
+                  
+                  <div class="upload-row upload-row-4col">
+                    <div class="form-group">
+                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; display: block;">Judul Film / Series *</label>
+                      <input type="text" id="up-title" class="input" placeholder="Masukkan judul..." style="width: 100%;" />
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; display: block;">Tahun Rilis</label>
+                      <input type="text" id="up-year" class="input" value="0" placeholder="Tahun rilis (misal: 2010 - 2012)..." style="width: 100%;" />
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; display: block;">Rating (1-10)</label>
+                      <input type="number" id="up-rating" class="input" min="0" max="10" step="0.1" value="0" placeholder="Rating..." style="width: 100%;" />
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; display: block;">Negara</label>
+                      <input type="text" id="up-country" class="input" placeholder="Masukkan negara (misal: Indonesia)..." style="width: 100%;" />
+                    </div>
+                  </div>
+
+                  <div class="upload-row upload-row-1col">
+                    <div class="form-group">
+                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; display: block;">Tipe Konten *</label>
+                      <div class="content-type-row" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; width: 100%;">
+                        <div id="up-type-group" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                          <button type="button" class="btn btn-primary" data-type="film">Film</button>
+                          <button type="button" class="btn btn-ghost" data-type="series">Series</button>
+                          <button type="button" class="btn btn-ghost" data-type="matcha" id="btn-type-matcha" style="display: none;">Matcha</button>
+                        </div>
+                        <div id="up-series-options" style="display: none; width: auto; flex: 1 1 auto;">
+                          <div class="series-config-row" id="up-series-category-group" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; width: auto;">
+                            <button type="button" class="btn btn-primary btn-small" data-cat="tv" style="flex: 0 1 auto; min-width: 100px; cursor: pointer;">TV Series</button>
+                            <button type="button" class="btn btn-ghost btn-small" data-cat="movie" style="flex: 0 1 auto; min-width: 110px; cursor: pointer;">Series Movie</button>
+                            <button type="button" class="btn btn-ghost btn-small" data-cat="anime" style="flex: 0 1 auto; min-width: 110px; cursor: pointer;">Series Anime</button>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-size: 12px; color: #fff; white-space: nowrap; margin: 0; padding-left: 6px;">
+                              <input type="checkbox" id="up-has-season" style="margin-right: 6px; accent-color: var(--accent-primary);" /> Gunakan Season
+                            </label>
+                          </div>
+                        </div>
+                        <div id="up-matcha-options" style="display: none; width: 100%;">
+                          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; width: 100%;" id="up-matcha-category-group">
+                            <button type="button" class="btn btn-primary btn-small" data-matcha-cat="bl_series" style="flex: 1 1 0; min-width: 100px; cursor: pointer;">BL Series</button>
+                            <button type="button" class="btn btn-ghost btn-small" data-matcha-cat="bl_movie" style="flex: 1 1 0; min-width: 100px; cursor: pointer;">BL Movie</button>
+                            <button type="button" class="btn btn-ghost btn-small" data-matcha-cat="secret" style="flex: 1 1 0; min-width: 100px; cursor: pointer;">Secret</button>
+                            <label id="up-matcha-storage-toggle-label" style="display: flex; align-items: center; cursor: pointer; font-size: 12px; color: #fff; white-space: nowrap; margin: 0; padding-left: 6px;">
+                              <input type="checkbox" id="up-matcha-storage" style="margin-right: 6px; accent-color: var(--accent-primary);" />
+                              <span id="up-matcha-storage-label-text">Koleksi</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; display: block;">Poster / Banner *</label>
+                    <div class="file-drop" id="up-banner-drop" style="cursor: pointer;">
+                      <div id="up-banner-preview-container" style="display: none; margin-bottom: 10px; position: relative;">
+                        <img id="up-banner-preview" src="" style="width: 120px; height: 180px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-subtle);" />
+                      </div>
+                      <div id="up-banner-placeholder" style="font-size: 28px; margin-bottom: 8px;">🖼️</div>
+                      <p id="up-banner-name" style="font-size: 11px; color: var(--text-secondary); margin: 0;">Pilih gambar untuk poster (Rekomendasi 2:3)</p>
+                      <input type="file" id="up-banner-input" accept="image/*" style="display: none;" />
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Right Panel: Episodes & Video URLs -->
+                <div class="upload-tab-panel" id="upload-tab-content" style="display: none; flex-direction: column; gap: 10px; padding: 16px; border-radius: 12px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.01); min-height: 0; width: 100%;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px; margin-bottom: 0;">
+                    <h3 style="font-size: 14px; font-weight: 600; color: #fff; margin: 0;">📁 Input File</h3>
+                    <div id="up-season-tabs" class="season-tabs" style="display: none; gap: 6px; align-items: center;">
+                      <div id="up-season-list" style="display: flex; gap: 6px;">
+                        <button type="button" class="btn-small active" data-season="1">Season 1</button>
+                      </div>
+                      <button type="button" id="btn-add-season" class="btn-small" style="background: transparent; border: 1px dashed var(--border-medium); padding: 4px 8px; cursor: pointer; color: #fff;">+ Season</button>
+                    </div>
+                  </div>
+
+
+
+                  <div id="up-episodes-list" class="file-list-scrollable" style="flex: 1; min-height: 0; overflow-y: auto;">
+                    <!-- Episodes will be injected here by JS -->
+                  </div>
+
+                  <div id="upload-actions-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: auto;">
+                    <div id="up-submit-error" class="alert alert-error" style="display: none; padding: 10px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- R2 Browser Modal -->
+            <div id="r2-browser-modal" class="modal-overlay" style="z-index: 3000;">
+              <div class="modal-content r2-browser" style="max-width: 700px; width: 95%;">
+                <div class="modal-header">
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <h2 style="font-size: 18px; margin: 0; color: var(--text-primary);">📁 R2 Browser</h2>
+                    <span id="r2-current-prefix" style="font-size: 11px; color: var(--text-muted); font-family: monospace;">uploads/</span>
+                  </div>
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <button class="btn-close" id="btn-close-r2" style="background: transparent; border: none; color: #ff4757; font-size: 18px; cursor: pointer;">✕</button>
+                  </div>
+                </div>
+                <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px; height: 100%; min-height: 420px; padding: 24px;">
+                  
+                  <div style="display: flex; justify-content: center; width: 100%; gap: 12px; align-items: center;">
+                    <div class="search-container" style="flex: 1; max-width: 500px; position: relative;">
+                      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                      <input type="text" id="r2-search-input" class="input" placeholder="Cari file atau folder R2..." style="width: 100%; padding: 12px 14px 12px 42px; font-size: 14px; border-radius: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-medium); color: #fff; transition: all 0.2s;" />
+                    </div>
+                    <button id="btn-r2-auto-detect" class="btn btn-primary" style="padding: 12px 20px; border-radius: 12px; background: #10b981; border: none; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; display: none; white-space: nowrap;">🎬 Auto-detect</button>
+                  </div>
+                  <div id="r2-btn-back" class="r2-item back-item" style="display: none; background: rgba(255,255,255,0.05); border: 1px dashed var(--border-medium); font-weight: 700; color: var(--text-secondary); justify-content: flex-start; gap: 10px;">
+                    <span>⬅ Kembali</span>
+                  </div>
+                  <div id="r2-loading" class="spinner-center" style="display: none; justify-content: center; padding: 40px;"><div class="spinner"></div></div>
+                  <div id="r2-list-container" class="r2-list" style="flex: 1; overflow-y: auto; max-height: 320px;"></div>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- MY LIST VIEW -->
+          <section id="view-mylist" class="app-view">
+            <div class="view-header">
+              <h1 class="view-title">My List</h1>
+            </div>
+            <div class="mylist-container" style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px;">
+              <div id="mylist-loading" class="spinner-center" style="display: none; justify-content: center; padding: 24px;">
+                <div class="spinner"></div>
+                <span style="margin-left: 10px; color: var(--text-secondary);">Memuat My List...</span>
+              </div>
+
+              <div id="mylist-empty-state" class="empty-state" style="padding: 30px; border: 1px solid var(--border-subtle); border-radius: 16px; background: rgba(255,255,255,0.01); display: flex; align-items: center; gap: 16px;">
+                <div style="font-size: 38px; line-height: 1;">💖</div>
+                <div>
+                  <h3 style="margin: 0; font-size: 18px; color: #fff;">Daftar favorit Anda kosong</h3>
+                  <p style="margin: 8px 0 0; color: var(--text-secondary); font-size: 13px; max-width: 540px; line-height: 1.6;">
+                    Tambahkan film atau series ke My List, lalu buka halaman ini untuk melihat koleksi favorit Anda.
+                  </p>
+                </div>
+              </div>
+
+              <div id="mylist-items-grid" class="media-grid" style="margin-top: 16px;"></div>
+            </div>
+          </section>
+
+          <!-- SETTINGS VIEW -->
+          <section id="view-settings" class="app-view">
+            <div class="view-header">
+              <h1 class="view-title">Pengaturan &amp; Diagnostik</h1>
+            </div>
+
+            <div class="settings-container" style="max-width: 1000px; display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px; align-items: start; margin-top: 10px;">
+              <!-- Left Column: App Info & Security -->
+              <div style="display: flex; flex-direction: column; gap: 24px;">
+                <!-- Info Card -->
+                <div class="settings-card glass" style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                  <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <div class="provider-badge firebase" style="background: rgba(239, 18, 35, 0.15); color: var(--accent-primary); border: 1px solid rgba(239, 18, 35, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">🎬</div>
+                    <h2 style="font-size: 16px; font-weight: 700;">Oura Desktop Player</h2>
+                  </div>
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Aplikasi desktop ini terhubung secara otomatis. Library media disinkronkan secara real-time dari database lokal.</p>
+                  <div style="margin-top: 16px; font-size: 13px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 8px;">
+                    <div><strong>Versi Aplikasi:</strong> v0.1.0 (Release Build)</div>
+                    <div><strong>Mode Playback:</strong> Direct URL &amp; Iframe Embed</div>
+                    <div><strong>Status Database:</strong> Terhubung</div>
+                  </div>
+                </div>
+
+                <!-- Security Card -->
+                <div class="settings-card glass" style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                  <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <div class="provider-badge security" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">🔒</div>
+                    <h2 style="font-size: 16px; font-weight: 700;">Keamanan &amp; Hak Akses</h2>
+                  </div>
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Atur proteksi PIN untuk mengakses folder Matcha, mengubah setelan API, serta melakukan browse file.</p>
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px;">
+                    <div>
+                      <span style="font-size: 13px; font-weight: 600; color: #fff; display: block;">Kunci PIN Keamanan</span>
+                      <span id="matcha-lock-status-text" style="font-size: 12px; color: var(--text-secondary);">Status: Tidak Aktif</span>
+                    </div>
+                    <button class="btn btn-primary btn-small" id="btn-toggle-matcha-lock" style="padding: 6px 16px; border-radius: 6px; font-size: 12px; cursor: pointer; border: none; color: #fff; background: var(--accent-gradient);">Aktifkan Kunci</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: API Settings & Logs -->
+              <div style="display: flex; flex-direction: column; gap: 24px;">
+                <!-- Byse.sx API Card -->
+                <div class="settings-card glass" style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                  <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <div class="provider-badge byse" style="background: rgba(139, 195, 74, 0.15); color: #8bc34a; border: 1px solid rgba(139, 195, 74, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">📁</div>
+                    <h2 style="font-size: 16px; font-weight: 700;">Integrasi API Byse.sx</h2>
+                  </div>
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">Atur API Key dan Domain Byse.sx untuk mengimpor file video secara langsung tanpa perlu membuka browser.</p>
+                  <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="form-group">
+                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; display: block;">API Base URL</label>
+                      <input type="text" id="settings-byse-url" class="input" value="https://api.byse.sx/file/list" style="width: 100%;" />
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; display: block;">API Key Byse.sx</label>
+                      <input type="password" id="settings-byse-key" class="input" placeholder="Masukkan API Key Anda..." style="width: 100%;" />
+                    </div>
+                    <button class="btn btn-primary" id="btn-save-byse-settings" style="margin-top: 6px; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; color: #fff; background: var(--accent-gradient); border: none;">Simpan Setelan Byse.sx</button>
+                  </div>
+                </div>
+
+                <!-- Cloudflare R2 Storage Card -->
+                <div class="settings-card glass" style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                  <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <div class="provider-badge r2" style="background: rgba(246, 130, 31, 0.15); color: #F6821F; border: 1px solid rgba(246, 130, 31, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">☁️</div>
+                    <h2 style="font-size: 16px; font-weight: 700;">Cloudflare R2 Storage</h2>
+                  </div>
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">Pantau total penggunaan penyimpanan untuk seluruh bucket Cloudflare R2 Anda.</p>
+                  
+                  <div id="r2-storage-loading" class="spinner-center" style="display: none; justify-content: center; padding: 12px; align-items: center; gap: 8px;">
+                    <div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div>
+                    <span style="color: var(--text-secondary); font-size: 13px;">Memuat statistik...</span>
+                  </div>
+                  
+                  <div id="r2-storage-error" class="alert alert-error" style="display: none; padding: 10px; font-size: 12px; margin-bottom: 12px;"></div>
+                  
+                  <div id="r2-storage-list" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                    <!-- Bucket stats will be loaded here -->
+                  </div>
+
+                  <div style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 13px; color: #fff; font-weight: 600;">Total Storage:</span>
+                    <span id="r2-storage-total" style="font-size: 14px; color: #F6821F; font-weight: 700;">0 B</span>
+                  </div>
+
+                  <button class="btn btn-primary" id="btn-refresh-r2-storage" style="margin-top: 16px; padding: 10px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; color: #fff; background: var(--accent-gradient); border: none;">Refresh Statistik R2</button>
+                </div>
+
+                <!-- Console & Error Log Card -->
+                <div class="settings-card glass" style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                  <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <div class="provider-badge console-badge" style="background: rgba(239, 18, 35, 0.15); color: #EF1223; border: 1px solid rgba(239, 18, 35, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">💻</div>
+                    <h2 style="font-size: 16px; font-weight: 700;">Console &amp; Error Log</h2>
+                  </div>
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Gunakan fitur ini untuk melihat riwayat aktivitas dan log error jika aplikasi mengalami kegagalan (lag / gagal upload).</p>
+                  <button class="btn btn-primary" id="btn-open-console-log" style="padding: 10px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; color: #fff; background: var(--accent-gradient); border: none;">Buka Konsol Log Aplikasi</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Draft Management View -->
+          <section id="view-drafts" class="app-view">
+            <div class="view-header">
+              <h1 class="view-title">📋 Manajemen Draft</h1>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px; margin-bottom:0;">Lihat dan kelola konten yang belum dipublikasikan</p>
+                <button id="btn-drafts-toggle-cols" class="btn btn-ghost" style="margin-left:8px; padding:6px 10px; font-size:13px;">3 Kolom</button>
+              </div>
+            </div>
+            <div id="drafts-container" style="padding: 20px; min-height: 400px;">
+              <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+                <div style="font-size: 48px; margin-bottom: 12px;">📋</div>
+                <p style="font-size: 14px;">Memuat draft...</p>
+              </div>
+            </div>
+          </section>
+
+          </main>
+    </div> <!-- Closes app-body -->
+    <!-- FULL-SCREEN AUTH PAGE -->
+    <div class="auth-page-container" id="auth-page" style="display: none;">
+      <button id="btn-toggle-login-pane" class="btn-toggle-login-pane" aria-label="Toggle login panel">
+        <span class="toggle-text">Hide</span>
+      </button>
+      <div class="auth-container">
+        <!-- Left Side: Image collage banner -->
+        <div class="auth-banner">
+          <img src="/src/assets/banner 1.png" class="auth-banner-img" alt="Cinema Collage" />
+        </div>
+
+        <!-- Right Side: Login form -->
+        <div class="auth-form-side">
+          <div class="auth-form-card" style="width: 100%; max-width: 360px; background: transparent; border: none; box-shadow: none;">
+            <form id="firebase-login-form" class="auth-fields-form" style="padding: 0; display: flex; flex-direction: column; gap: 20px;">
+                <div class="input-icon-group">
+                  <label for="fb-email" style="font-size: 13px; font-weight: 500; color: #8b9ec0; margin-bottom: 8px; display: block;">Email or Username</label>
+                  <div class="input-wrapper" style="position: relative;">
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #4a5a78; pointer-events: none;">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <input type="text" id="fb-email" placeholder="Enter your email or username (optional)" style="width: 100%; padding: 12px 14px 12px 42px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: #fff; font-family: var(--font-main); font-size: 14px;" />
+                  </div>
+                </div>
+
+                <div class="input-icon-group">
+                  <label for="fb-password" style="font-size: 13px; font-weight: 500; color: #8b9ec0; margin-bottom: 8px; display: block;">Password</label>
+                  <div class="input-wrapper" style="position: relative;">
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #4a5a78; pointer-events: none;">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    <input type="password" id="fb-password" placeholder="Enter your password (optional)" style="width: 100%; padding: 12px 42px 12px 42px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: #fff; font-family: var(--font-main); font-size: 14px;" />
+                    <button type="button" class="btn-toggle-password" id="btn-toggle-pw" aria-label="Toggle password visibility" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #4a5a78; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="auth-options-row" style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                  <label class="checkbox-container" style="display: flex; align-items: center; gap: 8px; color: #8b9ec0; cursor: pointer; user-select: none;">
+                    <input type="checkbox" id="remember-me" checked style="accent-color: #E50914;" />
+                    Remember me
+                  </label>
+                  <a href="#" class="forgot-pw-link" style="color: var(--accent-primary); text-decoration: none; font-weight: 500;">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full-purple" style="width: 100%; margin-top: 10px; padding: 14px; border-radius: 8px; font-family: var(--font-main); font-weight: 600; cursor: pointer; border: none; background: var(--accent-gradient); color: #fff; font-size: 15px; transition: opacity 0.2s;">Sign In</button>
+            </form>
+
+            <div class="auth-form-footer" style="margin-top: 24px; text-align: center; font-size: 13px; color: #8b9ec0;">
+              Don't have an account? <span class="sign-up-link" id="link-signup" style="color: var(--accent-primary); font-weight: 600; cursor: pointer; margin-left: 4px;">Sign up</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- Closes auth-page-container -->
+  </div> <!-- Closes app-layout -->
+
+  <!-- MEDIA DETAIL MODAL -->
+  <div class="modal-overlay" id="detail-modal">
+    <div class="detail-drawer glass">
+      <button class="modal-close" id="btn-close-detail">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+<div class="detail-content" id="detail-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- CUSTOM VIDEO PLAYER MODAL -->
+  <div class="player-overlay" id="player-modal" style="display: none;">
+    <div class="player-top-bar">
+      <div class="player-top-left">
+        <button class="player-back-btn" id="btn-close-player">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Kembali
+        </button>
+      </div>
+      <div class="player-top-right">
+        <button class="player-nav-btn" id="btn-toggle-sidebar" style="display: none;" title="Sembunyikan/Tampilkan Daftar Episode">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+          <span>Sembunyikan Episode</span>
+        </button>
+        <button class="player-open-browser-btn" id="btn-player-open-browser" style="display: none;" title="Buka di Browser">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          Buka di Browser
+        </button>
+      </div>
+    </div>
+
+    <div class="player-main-layout" style="display: flex; flex: 1; min-height: 0; width: 100%;">
+      <div class="player-video-section" style="flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: #05070c;">
+        <div class="player-container" style="position: relative; width: 100%; aspect-ratio: 16/9; max-height: 75vh; background: #000; flex-shrink: 0;">
+          <!-- Native Video Element (GDrive / R2) -->
+          <video id="native-video" class="video-element" style="display: none;"></video>
+
+          <!-- Iframe Embed Container (Utama) -->
+          <div id="embed-container" class="embed-element-container" style="display: none;"></div>
+
+          <!-- Custom Video Player Controls (hanya untuk native video) -->
+          <div id="player-controls" class="player-controls-overlay">
+            <!-- Loading Spinner -->
+            <div class="player-loader" id="player-loader" style="display: none;">
+              <div class="spinner"></div>
+              <p>Memuat video...</p>
+            </div>
+
+            <!-- Bottom Control Bar -->
+            <div class="control-bar glass">
+              <!-- Timeline -->
+              <div class="timeline-container">
+                <div class="timeline-bar" id="timeline-bar">
+                  <div class="timeline-loaded" id="timeline-loaded" style="width: 0%;"></div>
+                  <div class="timeline-progress" id="timeline-progress" style="width: 0%;"></div>
+                  <div class="timeline-handle" id="timeline-handle" style="left: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Controls row -->
+              <div class="controls-row">
+                <div class="controls-left">
+                  <button class="control-btn" id="btn-prev-episode" style="display: none;" title="Video Sebelumnya">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"></line></svg>
+                  </button>
+                  <button class="control-btn" id="btn-play-pause">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" id="play-icon"><path d="M8 5v14l11-7z"></path></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" id="pause-icon" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+                  </button>
+                  <button class="control-btn" id="btn-next-episode" style="display: none;" title="Video Selanjutnya">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"></line></svg>
+                  </button>
+                  <button class="control-btn" id="btn-skip-back">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.5 21a8.5 8.5 0 1 0-8.5-8.5v.5M2 10l3 3 3-3"></path><path d="M11 10h1.5a1.5 1.5 0 0 1 1.5 1.5v0a1.5 1.5 0 0 1-1.5 1.5H11"></path><path d="M12.5 13v3"></path></svg>
+                  </button>
+                  <button class="control-btn" id="btn-skip-forward">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11.5 21a8.5 8.5 0 1 1 8.5-8.5v.5M22 10l-3 3-3-3"></path><path d="M11 10h1.5a1.5 1.5 0 0 1 1.5 1.5v0a1.5 1.5 0 0 1-1.5 1.5H11"></path><path d="M12.5 13v3"></path></svg>
+                  </button>
+                  <span class="time-display">
+                    <span id="current-time">00:00</span>
+                    <span class="time-sep">/</span>
+                    <span id="duration-time">00:00</span>
+                  </span>
+                </div>
+
+                <div class="controls-right">
+                  <div class="volume-container">
+                    <button class="control-btn" id="btn-mute">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="vol-high-icon"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="vol-mute-icon" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                    </button>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" class="volume-bar" />
+                  </div>
+                  <button class="control-btn" id="btn-fullscreen">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Details Panel below video -->
+        <div class="player-details-panel glass" id="player-details-panel" style="padding: 24px; background: rgba(11, 16, 28, 0.4); border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <div>
+              <h2 id="player-details-title" style="font-size: 20px; font-weight: 700; color: #fff; margin: 0;"></h2>
+              <div id="player-details-meta" style="display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 13px; color: var(--text-secondary);">
+                <span class="badge" id="player-details-type" style="padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase;"></span>
+                <span id="player-details-year"></span>
+                <span id="player-details-country"></span>
+              </div>
+            </div>
+            
+            <!-- Source Link Toggle Button -->
+            <button class="player-nav-btn" id="btn-toggle-source" style="padding: 8px 16px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 8px;">
+              <span>👁 Lihat Sumber Video</span>
+            </button>
+          </div>
+
+          <!-- Hidden Source Box -->
+          <div id="player-source-box" style="display: none; padding: 14px; border-radius: var(--radius-md); background: rgba(0, 0, 0, 0.4); border: 1px dashed rgba(255,255,255,0.15); margin-top: 8px; word-break: break-all;">
+            <span style="font-size: 11.5px; color: var(--text-muted); display: block; margin-bottom: 6px;">Link Sumber Video / Embed URL:</span>
+            <code id="player-source-url" style="font-family: monospace; font-size: 12.5px; color: #38bdf8;"></code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Sidebar for Episodes -->
+      <div class="player-sidebar glass" id="player-sidebar" style="display: none; width: 320px; border-left: 1px solid var(--border-subtle); flex-shrink: 0; flex-direction: column; padding: 20px; overflow-y: auto; z-index: 205;">
+        <h3 id="player-sidebar-title" style="font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px;">Daftar Episode</h3>
+        <p id="player-sidebar-series-title" style="font-size: 12px; color: var(--text-secondary); margin-bottom: 16px;"></p>
+        <div id="player-sidebar-season-tabs" class="season-tabs" style="display: none; gap: 4px; margin-bottom: 12px;"></div>
+        <div id="player-sidebar-episode-list" class="episode-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+      </div>
+    </div>
+  </div> <!-- Closes player-modal -->
+
+  <!-- SECURITY PIN MODAL FOR MATCHA -->
+  <div class="modal-overlay center-modal" id="matcha-pin-modal">
+    <div class="pin-card glass">
+      <div class="pin-header" style="text-align: center; margin-bottom: 16px;">
+        <span style="font-size: 32px; display: block; margin-bottom: 8px;">🔒</span>
+        <h3 id="pin-modal-title" style="font-size: 16px; font-weight: 700; color: #fff; margin: 0;">Masukkan PIN Keamanan</h3>
+        <p id="pin-modal-desc" style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Kategori Matcha dilindungi oleh PIN keamanan.</p>
+      </div>
+      
+      <!-- Dots representation of entered characters -->
+      <div class="pin-dots-container">
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+      </div>
+      
+      <!-- Hidden PIN input -->
+      <input type="password" id="matcha-pin-hidden-input" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="opacity: 0; position: absolute; pointer-events: none;" />
+      
+      <!-- Virtual Keypad -->
+      <div class="pin-keypad">
+        <button class="pin-key-btn" data-key="1">1</button>
+        <button class="pin-key-btn" data-key="2">2</button>
+        <button class="pin-key-btn" data-key="3">3</button>
+        <button class="pin-key-btn" data-key="4">4</button>
+        <button class="pin-key-btn" data-key="5">5</button>
+        <button class="pin-key-btn" data-key="6">6</button>
+        <button class="pin-key-btn" data-key="7">7</button>
+        <button class="pin-key-btn" data-key="8">8</button>
+        <button class="pin-key-btn" data-key="9">9</button>
+        <button class="pin-key-btn cancel" id="btn-pin-cancel">✕</button>
+        <button class="pin-key-btn" data-key="0">0</button>
+        <button class="pin-key-btn delete" id="btn-pin-delete">⌫</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONSOLE LOG MODAL -->
+  <div id="console-log-modal" class="modal-overlay" style="z-index: 4000; display: none;">
+    <div class="modal-content console-modal" style="max-width: 850px; width: 95%; height: 85vh; display: flex; flex-direction: column; background: rgba(8, 12, 20, 0.95); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); backdrop-filter: var(--glass-blur); overflow: hidden; margin: auto;">
+      <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border-subtle); background: rgba(11, 16, 28, 0.5);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">💻</span>
+          <div>
+            <h2 style="font-size: 16px; font-weight: 700; margin: 0; color: #fff;">Konsol Log &amp; Diagnostik</h2>
+            <span style="font-size: 11px; color: var(--text-secondary);">Merekam aktivitas aplikasi, error unggahan, dan status API</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="btn btn-secondary btn-small" id="btn-console-clear" style="padding: 4px 10px; font-size: 12px; cursor: pointer; border-radius: 6px;">Bersihkan</button>
+          <button class="btn btn-secondary btn-small" id="btn-console-copy" style="padding: 4px 10px; font-size: 12px; cursor: pointer; border-radius: 6px; background: rgba(52, 168, 83, 0.1); border-color: rgba(52, 168, 83, 0.3); color: #81c784;">Salin Log</button>
+          <button class="btn-close" id="btn-close-console" style="background: transparent; border: none; color: #ff4757; font-size: 20px; cursor: pointer; padding: 0 5px; margin-left: 8px;">✕</button>
+        </div>
+      </div>
+      <div class="console-filter-bar" style="display: flex; gap: 10px; padding: 10px 20px; border-bottom: 1px solid var(--border-subtle); background: rgba(5, 7, 13, 0.5); align-items: center;">
+        <div class="search-container" style="flex: 1; max-width: none;">
+          <input type="text" id="console-search" class="input" placeholder="Cari di log..." style="width: 100%; padding: 8px 12px 8px 12px; font-size: 12.5px; border-radius: 6px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); color: #fff;" />
+        </div>
+        <div style="display: flex; gap: 6px;" id="console-filter-group">
+          <button class="filter-tab active" data-filter="all" style="padding: 4px 10px; font-size: 11px; border-radius: 6px;">Semua</button>
+          <button class="filter-tab" data-filter="error" style="padding: 4px 10px; font-size: 11px; border-radius: 6px; color: #ff8a80; border-color: rgba(255,138,128,0.3);">Error</button>
+          <button class="filter-tab" data-filter="warn" style="padding: 4px 10px; font-size: 11px; border-radius: 6px; color: #ffd54f; border-color: rgba(255,213,79,0.3);">Warning</button>
+          <button class="filter-tab" data-filter="info" style="padding: 4px 10px; font-size: 11px; border-radius: 6px; color: #81c784; border-color: rgba(129,199,132,0.3);">Info</button>
+        </div>
+      </div>
+      <div class="modal-body" id="console-log-body" style="flex: 1; padding: 16px 20px; overflow-y: auto; font-family: monospace; font-size: 12px; line-height: 1.6; background: #030508; color: #d1d5db; display: flex; flex-direction: column; gap: 6px; user-select: text;">
+        <!-- Log entries will be added here -->
+      </div>
+      <div style="padding: 8px 20px; background: rgba(11, 16, 28, 0.5); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-secondary);">
+        <span>Tips: Tekan <kbd style="background: rgba(255,255,255,0.1); padding: 2px 5px; border-radius: 3px; font-family: monospace; border: 1px solid rgba(255,255,255,0.15);">Ctrl + F12</kbd> atau <kbd style="background: rgba(255,255,255,0.1); padding: 2px 5px; border-radius: 3px; font-family: monospace; border: 1px solid rgba(255,255,255,0.15);">Ctrl + Shift + L</kbd> untuk membuka.</span>
+        <span id="console-log-count">Total: 0 log</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

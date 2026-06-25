@@ -1,0 +1,41 @@
+/* VIEW VIEWPORT */
+.view-viewport {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.app-view {
+  display: none;
+  height: 100%;
+  overflow-y: auto;
+  padding: var(--main-padding);
+  animation: fadeSlideIn 0.3s ease;
+}
+
+.app-view.active {
+  display: block;
+}
+
+#view-library {
+  overflow: hidden;
+}
+
+#view-library.active {
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+

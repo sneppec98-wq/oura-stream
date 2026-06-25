@@ -1,0 +1,127 @@
+/* STRUCTURE BUILDER (Volumes/Seasons) */
+.structure-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.structure-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.volume-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.volume-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-hover);
+  cursor: pointer;
+  user-select: none;
+}
+
+.volume-name-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+  border-radius: 0;
+  padding: 4px 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.volume-name-input:focus {
+  border-bottom-color: var(--accent-primary);
+  box-shadow: none;
+}
+
+.btn-remove-volume {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.btn-remove-volume:hover {
+  color: #EF4444;
+}
+
+.episodes-builder {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.episode-builder-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.source-type-select {
+  width: 130px;
+  flex-shrink: 0;
+}
+
+.btn-remove-ep {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-remove-ep:hover {
+  color: #EF4444;
+}
+
+.episode-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.episode-entry {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.episode-entry-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.episode-entry-header span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.btn-add-ep {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+

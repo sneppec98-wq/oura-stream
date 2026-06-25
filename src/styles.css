@@ -1,0 +1,51 @@
+@import "./styles/shared.css";
+@import "./styles/library.css";
+@import "./styles/settings-bundle.css";
+@import "./styles/upload.css";
+@import "./styles/player.css";
+@import "./styles/auth.css";
+
+/* Skeleton Loading */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.skeleton-card {
+  width: 100%;
+  aspect-ratio: 2/3;
+  border-radius: 10px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 200%;
+  }
+}
+
+/* Micro-animations for Media Cards */
+.media-card, .continue-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.media-card:hover, .continue-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.05);
+  z-index: 10;
+}

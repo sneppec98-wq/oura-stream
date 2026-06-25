@@ -1,0 +1,199 @@
+/* PLAYER SIDEBAR */
+.player-sidebar {
+  display: flex;
+  flex-direction: column;
+  background: rgba(11, 16, 28, 0.95) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid var(--border-subtle);
+  width: 320px;
+  flex-shrink: 0;
+  padding: 20px;
+  overflow-y: auto;
+  gap: 12px;
+}
+
+.player-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.player-sidebar .episode-item:hover {
+  background: var(--bg-hover) !important;
+  border-color: var(--border-medium) !important;
+}
+
+.player-sidebar .season-tab {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.player-sidebar .season-tab.active {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Player Top Bar Layout & Buttons */
+.player-top-bar {
+  height: 60px;
+  background: rgba(11, 16, 28, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+  z-index: 210;
+}
+
+.player-top-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.player-top-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player-top-bar .player-back-btn,
+.player-top-bar .player-title-text,
+.player-top-bar .player-open-browser-btn {
+  position: static !important;
+  opacity: 1 !important;
+  animation: none !important;
+  pointer-events: auto !important;
+}
+
+.player-top-bar .player-title-text {
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  max-width: 40vw;
+}
+
+.player-top-bar .player-back-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.player-top-bar .player-back-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+}
+
+.player-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.player-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.player-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive Player Layout */
+.player-video-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: #05070c;
+}
+
+.player-details-panel {
+  padding: 24px;
+  background: rgba(11, 16, 28, 0.4);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .player-main-layout {
+    flex-direction: column !important;
+  }
+  
+  .player-video-section {
+    flex: none !important;
+    width: 100% !important;
+    max-height: 70vh !important;
+  }
+
+  .player-container {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;
+    max-height: none !important;
+  }
+  
+  .player-sidebar {
+    width: 100% !important;
+    height: auto !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+    border-top: 1px solid var(--border-subtle) !important;
+  }
+}
+
+/* Byse Browser Transitions */
+@keyframes byseFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.byse-folder-card, .byse-file-card {
+  animation: byseFadeInUp 0.28s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+
+/* Bulk management mode styles */
+.media-grid.manage-mode .card-select-checkbox-wrapper {
+  display: block !important;
+}
+
+.media-grid.manage-mode .card-overlay {
+  display: none !important;
+}
+
+.media-grid.manage-mode .media-card {
+  border-color: rgba(255,255,255,0.1);
+  transform: scale(0.98);
+}
+
+.media-grid.manage-mode .media-card:hover {
+  transform: scale(1.0);
+  border-color: var(--accent-primary) !important;
+}
+
+

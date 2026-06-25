@@ -1,0 +1,109 @@
+/* RESET & ROOT */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --font-main: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* Color palette */
+  --bg-base: #05070D;
+  --bg-surface: #0B101C;
+  --bg-elevated: #121824;
+  --bg-card: #111827;
+  --bg-hover: #1F2937;
+
+  --accent-primary: #EF1223;
+  --accent-blue: #B80710;
+  --accent-glow: rgba(239, 18, 35, 0.3);
+  --accent-gradient: linear-gradient(135deg, #EF1223 0%, #B80710 100%);
+  --accent-gradient-glow: linear-gradient(135deg, rgba(239, 18, 35, 0.7) 0%, rgba(184, 7, 16, 0.7) 100%);
+
+  --text-primary: #F0F4FF;
+  --text-secondary: #9AA7BD;
+  --text-muted: #4A5A78;
+
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(239, 18, 35, 0.4);
+
+  --glass-bg: rgba(11, 16, 28, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(20px);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 30px rgba(239, 18, 35, 0.25);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Sizing Config - Normal Mode (1241px - 1366px) */
+  --sidebar-width: 235px;
+  --right-sidebar-width: 310px;
+  --main-padding: 24px;
+  --column-gap: 18px;
+  --section-gap: 24px;
+  --hero-height: 300px;
+  --card-w: 160px;
+  --card-h: 236px;
+  --card-landscape-w: 220px;
+  --topbar-height: 64px;
+  --titlebar-height: 30px;
+
+  --transition-fast: 0.15s ease;
+  --transition-med: 0.25s ease;
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sizing Config - Compact Mode (1100px - 1240px) */
+@media (max-width: 1240px) {
+  :root {
+    --sidebar-width: 210px;
+    --right-sidebar-width: 265px;
+    --main-padding: 20px;
+    --column-gap: 16px;
+    --section-gap: 20px;
+    --hero-height: 270px;
+    --card-w: 148px;
+    --card-h: 218px;
+    --card-landscape-w: 200px;
+  }
+}
+
+/* Sizing Config - Mobile Mode (<= 768px) */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 0px;
+    --right-sidebar-width: 0px;
+    --main-padding: 12px;
+    --column-gap: 10px;
+    --section-gap: 16px;
+    --hero-height: 220px;
+    --card-w: 105px;
+    --card-h: 157px;
+    --card-landscape-w: 160px;
+    --topbar-height: 56px;
+  }
+}
+
+html,
+body {
+  height: 100%;
+  font-family: var(--font-main);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+

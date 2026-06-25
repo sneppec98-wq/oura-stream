@@ -1,0 +1,490 @@
+{
+  "sections": [
+    {
+      "name": "IN-APP CONSOLE LOG SYSTEM",
+      "startLine": 24,
+      "endLine": 233,
+      "exports": [
+        "setupConsoleLogListeners"
+      ],
+      "functions": [
+        "addLog",
+        "appendLogToUI",
+        "renderAllLogs",
+        "updateLogCount",
+        "copyLogsToClipboard",
+        "setupConsoleLogListeners"
+      ],
+      "types": [
+        "LogEntry"
+      ],
+      "variables": [
+        "maxLogEntries",
+        "appLogs",
+        "consoleFilter",
+        "consoleSearchQuery",
+        "originalLog",
+        "originalWarn",
+        "originalError",
+        "originalInfo",
+        "originalDebug"
+      ],
+      "imports": [],
+      "dependencies": [
+        "DOM API (document.getElementById, localStorage, etc)",
+        "window API (addEventListener, etc)"
+      ],
+      "description": "In-app console logging system with UI for capturing, filtering, and viewing application logs"
+    },
+    {
+      "name": "TYPES",
+      "startLine": 234,
+      "endLine": 257,
+      "exports": [],
+      "functions": [],
+      "types": [
+        "AppSettings",
+        "WatchProgress"
+      ],
+      "variables": [],
+      "imports": [],
+      "dependencies": [],
+      "description": "TypeScript interfaces for application settings and watch progress tracking"
+    },
+    {
+      "name": "STATE",
+      "startLine": 258,
+      "endLine": 333,
+      "exports": [],
+      "functions": [
+        "disableMatchaManageMode",
+        "isSuperAdmin"
+      ],
+      "types": [],
+      "variables": [
+        "settings",
+        "activeFilter",
+        "matchaSubFilter",
+        "isSidebarCollapsed",
+        "searchQuery",
+        "activeDetailSeason",
+        "currentPlayingEp",
+        "currentPlayingFilm",
+        "gridCurrentPage",
+        "gridItemsPerPage",
+        "gridLastVisibleDoc",
+        "gridPageCursors",
+        "searchDebounceTimeout",
+        "isPlayerSidebarCollapsed",
+        "selectedMatchaIds",
+        "currentLibraryItems",
+        "currentUserRole",
+        "ADMIN_EMAILS",
+        "homeCache"
+      ],
+      "imports": [
+        "FirestoreEpisode",
+        "FirestoreFilm"
+      ],
+      "dependencies": [
+        "AppSettings type",
+        "WatchProgress type",
+        "FirestoreEpisode from firestore.ts",
+        "FirestoreFilm from firestore.ts",
+        "auth from firebase.ts"
+      ],
+      "description": "Global application state variables and core utility functions for managing app state"
+    },
+    {
+      "name": "STATE PERSISTENCE",
+      "startLine": 334,
+      "endLine": 384,
+      "exports": [],
+      "functions": [
+        "saveAppState",
+        "restoreAppState"
+      ],
+      "types": [],
+      "variables": [],
+      "imports": [],
+      "dependencies": [
+        "localStorage API",
+        "switchView function from NAVIGATION section",
+        "activeFilter state variable",
+        "DOM query selectors"
+      ],
+      "description": "Functions for saving and restoring application state to/from localStorage"
+    },
+    {
+      "name": "WATCH PROGRESS",
+      "startLine": 385,
+      "endLine": 417,
+      "exports": [],
+      "functions": [
+        "getWatchProgress",
+        "saveWatchProgress",
+        "deleteWatchProgress",
+        "getFilmProgress"
+      ],
+      "types": [],
+      "variables": [],
+      "imports": [
+        "FirestoreEpisode",
+        "FirestoreFilm"
+      ],
+      "dependencies": [
+        "WatchProgress type",
+        "localStorage API",
+        "FirestoreEpisode type",
+        "FirestoreFilm type"
+      ],
+      "description": "Functions for tracking and managing video playback progress per episode"
+    },
+    {
+      "name": "UTILITIES",
+      "startLine": 418,
+      "endLine": 828,
+      "exports": [
+        "showCustomAlert",
+        "showCustomConfirm",
+        "syncMatchaSecurityFromFirestore"
+      ],
+      "functions": [
+        "formatTime",
+        "showToast",
+        "showCustomAlert",
+        "showCustomConfirm",
+        "syncMatchaSecurityFromFirestore",
+        "setupMatchaSecurity",
+        "setLoadingState"
+      ],
+      "types": [],
+      "variables": [
+        "matchaLocked",
+        "matchaPin"
+      ],
+      "imports": [
+        "getUserSettings",
+        "saveUserSettings"
+      ],
+      "dependencies": [
+        "auth from firebase.ts",
+        "getUserSettings from firestore.ts",
+        "saveUserSettings from firestore.ts",
+        "DOM API",
+        "localStorage API",
+        "showToast function (internal)"
+      ],
+      "description": "Core utility functions including custom dialogs, PIN-based security, loading states, and toast notifications"
+    },
+    {
+      "name": "NAVIGATION",
+      "startLine": 829,
+      "endLine": 850,
+      "exports": [],
+      "functions": [
+        "switchView"
+      ],
+      "types": [],
+      "variables": [],
+      "imports": [],
+      "dependencies": [
+        "DOM API"
+      ],
+      "description": "Navigation function to switch between application views (library, settings, upload)"
+    },
+    {
+      "name": "LIBRARY RENDER",
+      "startLine": 851,
+      "endLine": 1398,
+      "exports": [],
+      "functions": [
+        "createMediaCardHTML",
+        "renderLibrary",
+        "renderHeroCarousel",
+        "renderHeroCarouselForCategory",
+        "renderPaginationControls",
+        "initRowScrollButtons"
+      ],
+      "types": [],
+      "variables": [
+        "items",
+        "currentSlide"
+      ],
+      "imports": [
+        "FirestoreFilm",
+        "searchFilmsFirestore",
+        "loadFilmsPaginated",
+        "loadTrendingFilms",
+        "loadRecentlyAdded",
+        "formatFilmType",
+        "getFirstPlayableEpisode",
+        "fetchFilmsByIds"
+      ],
+      "dependencies": [
+        "FirestoreFilm type from firestore.ts",
+        "searchFilmsFirestore from firestore.ts",
+        "loadFilmsPaginated from firestore.ts",
+        "loadTrendingFilms from firestore.ts",
+        "loadRecentlyAdded from firestore.ts",
+        "formatFilmType from firestore.ts",
+        "getFirstPlayableEpisode from firestore.ts",
+        "fetchFilmsByIds from firestore.ts",
+        "quickPlay function from QUICK PLAY section",
+        "openDetailModal function from DETAIL MODAL section",
+        "activeFilter state",
+        "setLoadingState function from UTILITIES section",
+        "showToast function from UTILITIES section",
+        "showCustomAlert function from UTILITIES section",
+        "isSuperAdmin function from STATE section"
+      ],
+      "description": "Large section handling library rendering, card creation, pagination, and hero carousels"
+    },
+    {
+      "name": "DETAIL MODAL",
+      "startLine": 1399,
+      "endLine": 1581,
+      "exports": [],
+      "functions": [
+        "openDetailModal",
+        "renderEpisodeList",
+        "closeDetailModal"
+      ],
+      "types": [],
+      "variables": [],
+      "imports": [
+        "FirestoreFilm",
+        "FirestoreEpisode",
+        "getSeasons",
+        "getEpisodesBySeason",
+        "formatFilmType",
+        "getFirstPlayableEpisode",
+        "deleteFilmFirestore"
+      ],
+      "dependencies": [
+        "FirestoreFilm from firestore.ts",
+        "FirestoreEpisode from firestore.ts",
+        "getSeasons from firestore.ts",
+        "getEpisodesBySeason from firestore.ts",
+        "formatFilmType from firestore.ts",
+        "getFirstPlayableEpisode from firestore.ts",
+        "deleteFilmFirestore from firestore.ts",
+        "playEpisode function from VIDEO PLAYER section",
+        "closeDetailModal function (internal)",
+        "getWatchProgress function from WATCH PROGRESS section",
+        "activeDetailSeason state",
+        "currentUserRole state",
+        "isSuperAdmin function from STATE section",
+        "showCustomConfirm function from UTILITIES section",
+        "setLoadingState function from UTILITIES section",
+        "showToast function from UTILITIES section",
+        "refreshLibrary function from LIBRARY REFRESH section",
+        "switchView function from NAVIGATION section",
+        "saveAppState function from STATE PERSISTENCE section"
+      ],
+      "description": "Modal for displaying film/series details and episode lists with admin controls"
+    },
+    {
+      "name": "QUICK PLAY",
+      "startLine": 1582,
+      "endLine": 1595,
+      "exports": [],
+      "functions": [
+        "quickPlay"
+      ],
+      "types": [],
+      "variables": [],
+      "imports": [
+        "FirestoreFilm",
+        "getFirstPlayableEpisode"
+      ],
+      "dependencies": [
+        "getFilmProgress function from WATCH PROGRESS section",
+        "playEpisode function from VIDEO PLAYER section",
+        "getFirstPlayableEpisode from firestore.ts",
+        "openDetailModal function from DETAIL MODAL section"
+      ],
+      "description": "Quick play logic to resume or start playing a film/series"
+    },
+    {
+      "name": "VIDEO PLAYER",
+      "startLine": 1596,
+      "endLine": 1810,
+      "exports": [],
+      "functions": [
+        "initPlayer",
+        "seekFromEvent",
+        "showLoader",
+        "updateTimeline",
+        "setPlayState",
+        "updateVolumeIcons",
+        "togglePlay",
+        "playEpisode",
+        "extractGDriveFileId",
+        "closePlayer"
+      ],
+      "types": [],
+      "variables": [
+        "videoEl",
+        "isDraggingTimeline"
+      ],
+      "imports": [
+        "FirestoreFilm",
+        "FirestoreEpisode",
+        "invoke"
+      ],
+      "dependencies": [
+        "formatTime function from UTILITIES section",
+        "showToast function from UTILITIES section",
+        "getWatchProgress function from WATCH PROGRESS section",
+        "saveWatchProgress function from WATCH PROGRESS section",
+        "deleteWatchProgress function from WATCH PROGRESS section",
+        "currentPlayingEp state",
+        "currentPlayingFilm state",
+        "isPlayerSidebarCollapsed state",
+        "renderPlayerSidebar function from PLAY EPISODE section",
+        "invoke from @tauri-apps/api/core",
+        "setupUploadLogic from upload.ts",
+        "DOM API (video element, controls, etc)",
+        "renderLibrary function from LIBRARY RENDER section"
+      ],
+      "description": "Video player initialization and playback controls including seeking, volume, fullscreen, and episode navigation"
+    },
+    {
+      "name": "PLAY EPISODE (LOGIC UTAMA)",
+      "startLine": 1811,
+      "endLine": 2082,
+      "exports": [],
+      "functions": [
+        "renderPlayerSidebar"
+      ],
+      "types": [],
+      "variables": [],
+      "imports": [
+        "FirestoreFilm",
+        "FirestoreEpisode",
+        "getSeasons",
+        "getEpisodesBySeason"
+      ],
+      "dependencies": [
+        "FirestoreFilm from firestore.ts",
+        "FirestoreEpisode from firestore.ts",
+        "getSeasons from firestore.ts",
+        "getEpisodesBySeason from firestore.ts",
+        "playEpisode function from VIDEO PLAYER section",
+        "isPlayerSidebarCollapsed state",
+        "currentLibraryItems state",
+        "getFirstPlayableEpisode from firestore.ts"
+      ],
+      "description": "Main episode playing logic including sidebar rendering with season/episode selection"
+    },
+    {
+      "name": "AUTH (REAL FIREBASE)",
+      "startLine": 2083,
+      "endLine": 2153,
+      "exports": [],
+      "functions": [
+        "updateAuthUI",
+        "handleFirebaseLogin"
+      ],
+      "types": [],
+      "variables": [],
+      "imports": [
+        "auth",
+        "signInWithEmailAndPassword",
+        "signOut",
+        "onAuthStateChanged",
+        "getUserRole"
+      ],
+      "dependencies": [
+        "auth from firebase.ts",
+        "signInWithEmailAndPassword from firebase/auth",
+        "signOut from firebase/auth",
+        "onAuthStateChanged from firebase/auth",
+        "getUserRole from firestore.ts",
+        "setLoadingState function from UTILITIES section",
+        "showToast function from UTILITIES section",
+        "refreshLibrary function from LIBRARY REFRESH section",
+        "currentUserRole state",
+        "DOM API"
+      ],
+      "description": "Firebase authentication UI updates and login form handling"
+    },
+    {
+      "name": "LIBRARY REFRESH",
+      "startLine": 2154,
+      "endLine": 2172,
+      "exports": [],
+      "functions": [
+        "refreshLibrary"
+      ],
+      "types": [],
+      "variables": [],
+      "imports": [],
+      "dependencies": [
+        "setLoadingState function from UTILITIES section",
+        "renderLibrary function from LIBRARY RENDER section",
+        "showToast function from UTILITIES section",
+        "homeCache state",
+        "gridCurrentPage state",
+        "gridLastVisibleDoc state",
+        "gridPageCursors state"
+      ],
+      "description": "Function to refresh the library view and clear cached data"
+    },
+    {
+      "name": "SETTINGS",
+      "startLine": 2173,
+      "endLine": 2402,
+      "exports": [],
+      "functions": [
+        "loadSettingsToForm"
+      ],
+      "types": [],
+      "variables": [],
+      "imports": [
+        "invoke",
+        "setupUploadLogic",
+        "signOut",
+        "onAuthStateChanged"
+      ],
+      "dependencies": [
+        "invoke from @tauri-apps/api/core",
+        "setupUploadLogic from upload.ts",
+        "setupConsoleLogListeners function from CONSOLE LOG SYSTEM section",
+        "restoreAppState function from STATE PERSISTENCE section",
+        "onAuthStateChanged from firebase/auth",
+        "updateAuthUI function from AUTH section",
+        "syncMatchaSecurityFromFirestore function from UTILITIES section",
+        "getUserRole from firestore.ts",
+        "currentUserRole state",
+        "refreshLibrary function from LIBRARY REFRESH section",
+        "switchView function from NAVIGATION section",
+        "saveAppState function from STATE PERSISTENCE section",
+        "renderLibrary function from LIBRARY RENDER section",
+        "showCustomConfirm function from UTILITIES section",
+        "signOut from firebase/auth",
+        "showToast function from UTILITIES section",
+        "initPlayer function from VIDEO PLAYER section",
+        "setupMatchaSecurity function from UTILITIES section",
+        "localStorage API",
+        "DOM API",
+        "window.DOMContentLoaded event"
+      ],
+      "description": "Application initialization and settings management - contains DOMContentLoaded event handlers, settings form loading, and all navigation event listeners"
+    }
+  ],
+  "metadata": {
+    "totalLines": 2402,
+    "totalSections": 15,
+    "fileType": "TypeScript",
+    "purpose": "Main Vue/TypeScript application module for streaming platform UI",
+    "keyImports": [
+      "firebase/auth",
+      "@tauri-apps/api/core",
+      "../firebase",
+      "../firestore",
+      "../upload"
+    ]
+  }
+}

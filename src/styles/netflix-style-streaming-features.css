@@ -1,0 +1,342 @@
+/* NETFLIX-STYLE STREAMING FEATURES */
+/* Hero Banner (Legacy Oura Adaptation) */
+.hero-banner { 
+  position: relative; 
+  width: 100%; 
+  height: 50vh; 
+  min-height: 350px; 
+  max-height: 500px; 
+  border-radius: 24px; 
+  margin-bottom: 40px; 
+  display: flex; 
+  align-items: flex-end; 
+  padding: 45px; 
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+}
+
+.hero-banner-bg-blur { 
+  position: absolute; 
+  inset: -20px; 
+  background-size: cover; 
+  background-position: center; 
+  filter: blur(22px) brightness(0.45); 
+  z-index: 0;
+}
+
+.hero-banner-main-img { 
+  position: absolute; 
+  inset: 0; 
+  background-size: contain; 
+  background-repeat: no-repeat; 
+  background-position: center center; 
+  z-index: 1; 
+  transition: transform 0.5s ease;
+}
+.hero-banner:hover .hero-banner-main-img { transform: scale(1.03); }
+
+.hero-slide-layer { 
+  position: absolute; 
+  inset: 0; 
+  opacity: 0; 
+  transition: opacity 1s ease-in-out;
+}
+.hero-slide-layer.active { opacity: 1; z-index: 1; }
+
+.hero-indicators { 
+  position: absolute; 
+  bottom: 24px; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  display: flex; 
+  gap: 8px; 
+  z-index: 20;
+}
+.indicator-dot { 
+  width: 8px; 
+  height: 8px; 
+  border-radius: 50%; 
+  background: rgba(255,255,255,0.3); 
+  cursor: pointer; 
+  transition: all 0.3s ease;
+}
+.indicator-dot:hover { background: rgba(255,255,255,0.5); }
+.indicator-dot.active { 
+  width: 24px; 
+  border-radius: 10px; 
+  background: #fff;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+.hero-gradient { 
+  position: absolute; 
+  inset: 0; 
+  background: linear-gradient(to right, rgba(15,15,19,0.95) 0%, rgba(15,15,19,0.4) 50%, transparent 100%), linear-gradient(to top, rgba(15,15,19,1) 0%, transparent 60%);
+  z-index: 10; 
+  pointer-events: none;
+}
+
+.hero-content { 
+  position: relative; 
+  z-index: 15; 
+  max-width: 600px; 
+  animation: fadeUp 0.8s ease-out;
+  pointer-events: none;
+}
+
+.hero-badge { 
+  background: var(--accent-primary);
+  color: #fff; 
+  padding: 6px 14px; 
+  border-radius: 20px; 
+  font-size: 11px; 
+  font-weight: 800; 
+  text-transform: uppercase; 
+  letter-spacing: 1px; 
+  margin-bottom: 16px; 
+  display: inline-block; 
+}
+
+.hero-title { 
+  font-size: 38px; 
+  font-weight: 800; 
+  margin-bottom: 12px; 
+  line-height: 1.2; 
+  text-shadow: 0 4px 12px rgba(0,0,0,0.5); 
+}
+
+.hero-meta { 
+  display: flex; 
+  gap: 12px; 
+  font-size: 13px; 
+  color: var(--text-secondary); 
+  font-weight: 500; 
+}
+
+/* Category Rows */
+.media-row-section {
+  margin-bottom: var(--section-gap);
+  animation: fadeSlideIn 0.4s ease both;
+}
+
+.row-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.row-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+  margin-bottom: 0;
+}
+
+.row-nav-arrows {
+  display: flex;
+  gap: 6px;
+}
+
+.row-nav-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.row-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.row-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.row-scroller {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 4px 4px 16px;
+  margin: 0 -4px -12px;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.row-scroller::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}
+
+.row-scroller .media-card {
+  width: var(--card-w);
+  flex-shrink: 0;
+}
+
+/* Landscape Cards for Continue Watching */
+.landscape-card {
+  width: var(--card-landscape-w) !important;
+  flex-shrink: 0;
+  height: auto !important;
+}
+
+.landscape-card .card-poster-wrapper {
+  aspect-ratio: 16 / 9;
+}
+
+.media-grid.grid-landscape {
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-landscape-w), 1fr));
+}
+
+.media-grid.grid-landscape .landscape-card {
+  width: 100% !important;
+}
+
+
+.media-card:hover .card-poster-wrapper {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 14px rgba(229, 9, 20, 0.4);
+}
+
+.card-poster.landscape {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+  background: var(--bg-hover);
+}
+
+.card-poster-placeholder.landscape {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--bg-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--text-muted);
+}
+
+.landscape-info {
+  padding: 0 !important;
+}
+
+.landscape-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.landscape-title-row .card-title {
+  margin-bottom: 0;
+  max-width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-time-left {
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.red-fill {
+  background: var(--accent-primary) !important;
+  box-shadow: 0 0 6px rgba(229, 9, 20, 0.6);
+}
+
+.card-play-btn-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fff;
+  color: #000;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transform: scale(0.85);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+
+.card-play-btn-circle:hover {
+  background: #E50914;
+  color: #fff;
+  transform: scale(1);
+}
+
+.card-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.card-rating-row .star-icon {
+  color: #FBBC05;
+  font-size: 12px;
+}
+
+.card-rating-row .rating-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* Card Watch Progress Overlay */
+.card-progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 5;
+}
+
+.card-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7C3AED 0%, #EC4899 100%);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* Continue Watching Card Details */
+.card-resume-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+

@@ -1,0 +1,168 @@
+/* SINGLE PAGE DASHBOARD (NO VERTICAL SCROLLING) */
+.library-main-panel.dashboard-mode {
+  overflow-y: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  justify-content: flex-start !important;
+  gap: 16px !important;
+  padding-right: 8px !important;
+}
+
+.library-main-panel.dashboard-mode #hero-banner {
+  height: 32vh !important;
+  min-height: 180px !important;
+  max-height: 240px !important;
+  margin-bottom: 0 !important;
+  flex-shrink: 0 !important;
+  padding: 20px 30px !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5) !important;
+}
+
+.library-main-panel.dashboard-mode .hero-title {
+  font-size: 24px !important;
+  margin-bottom: 8px !important;
+}
+
+.library-main-panel.dashboard-mode .hero-badge {
+  padding: 4px 10px !important;
+  font-size: 9px !important;
+  margin-bottom: 10px !important;
+}
+
+.library-main-panel.dashboard-mode .hero-indicators {
+  bottom: 12px !important;
+}
+
+.library-main-panel.dashboard-mode #streaming-rows {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  gap: 12px !important;
+  justify-content: flex-start !important;
+  overflow: hidden !important;
+}
+
+.library-main-panel.dashboard-mode .media-row-section {
+  margin-bottom: 0 !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex;
+  flex-direction: column !important;
+}
+
+.library-main-panel.dashboard-mode .row-header-wrapper {
+  margin-bottom: 6px !important;
+  flex-shrink: 0 !important;
+}
+
+.library-main-panel.dashboard-mode .row-title {
+  font-size: 14px !important;
+}
+
+.library-main-panel.dashboard-mode .row-scroller {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 4px 8px !important;
+  margin: 0 -4px 0 !important;
+  overflow-y: hidden !important;
+  overflow-x: auto !important;
+}
+
+.library-main-panel.dashboard-mode .media-card {
+  height: 100% !important;
+  max-height: 180px !important;
+  width: 120px !important;
+  border-radius: 10px !important;
+  flex-shrink: 0 !important;
+}
+
+.library-main-panel.dashboard-mode .media-card .poster-fallback {
+  font-size: 20px !important;
+}
+
+.library-main-panel.dashboard-mode .media-card .title {
+  font-size: 10px !important;
+}
+
+.library-main-panel.dashboard-mode .media-card .badge {
+  padding: 1px 4px !important;
+}
+
+.library-main-panel.dashboard-mode .continue-card {
+  height: 180px !important;
+  width: 120px !important;
+  border-radius: 10px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.library-main-panel.dashboard-mode .continue-card img {
+  width: 100% !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  object-fit: cover !important;
+}
+
+.library-main-panel.dashboard-mode .continue-card p {
+  font-size: 9px !important;
+}
+
+.library-main-panel.dashboard-mode .continue-card p + p {
+  font-size: 8px !important;
+}
+
+/* Custom styling for player title and open in browser button */
+.player-title-text {
+  position: absolute;
+  top: 22px;
+  left: 100px;
+  z-index: 210;
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: none;
+  animation: fadeInDown 0.3s 0.2s ease both;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50vw;
+}
+
+.player-open-browser-btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  z-index: 210;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--accent-gradient);
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  opacity: 0;
+  animation: fadeInDown 0.3s 0.2s ease both;
+  box-shadow: 0 4px 16px var(--accent-glow, rgba(124, 58, 237, 0.3));
+}
+
+.player-open-browser-btn:hover {
+  filter: brightness(1.15);
+  transform: scale(1.03);
+}
+
+

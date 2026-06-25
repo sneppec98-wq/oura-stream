@@ -1,0 +1,74 @@
+/* MAIN CONTENT */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-base);
+}
+
+/* Prevent horizontal scrolling site-wide (keep UI contained) */
+html, body, .main-content { overflow-x: hidden; }
+
+/* Drafts grid (responsive, no horizontal scroll)
+   - Uses auto-fit + minmax so columns adapt to viewport
+   - Small screens stack card content vertically to avoid overflow
+*/
+.drafts-grid-wrapper {
+  padding: 20px 12px;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
+}
+.drafts-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  width: 100%;
+  max-width: calc(100% - 24px);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Card */
+.draft-card {
+  display: flex;
+  gap: 16px;
+  padding: 14px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid var(--border-subtle);
+  align-items: stretch;
+  min-height: 140px;
+  transition: transform .18s ease, box-shadow .18s ease;
+  min-width: 0; /* prevent flex children from forcing overflow */
+}
+.draft-card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+
+.draft-poster-wrap { flex: 0 0 140px; min-width: 0; }
+.draft-poster { width: 140px; height: 196px; object-fit: cover; border-radius: 8px; display: block; max-width: 100%; }
+.draft-body { flex: 1; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+.draft-header { display:flex; align-items:center; gap:12px; }
+.draft-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin:0; }
+.draft-badge { background: rgba(255,170,94,0.12); color: #ffaa5e; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight:700; }
+.draft-meta { display:flex; flex-wrap: wrap; gap: 8px 18px; color: var(--text-secondary); font-size:13px; margin:8px 0; }
+.draft-updated { color: var(--text-muted); font-size:12px; margin:0 0 8px 0; }
+.draft-actions { display:flex; flex-wrap: wrap; gap:8px; justify-content: flex-end; }
+.draft-actions .btn { padding:6px 10px; font-size:13px; }
+
+@media (max-width: 900px) {
+  .draft-poster { width: 120px; height: 168px; }
+  .draft-poster-wrap { flex: 0 0 120px }
+}
+
+/* On very small screens stack card vertically to avoid horizontal scroll */
+@media (max-width: 480px) {
+  .draft-card { flex-direction: column; align-items: center; text-align: center; padding: 12px; }
+  .draft-poster-wrap { flex: 0 0 auto; }
+  .draft-poster { width: 100%; height: auto; max-width: 260px; }
+  .draft-body { width: 100%; }
+  .draft-actions { justify-content: center; width: 100%; }
+  .draft-meta { justify-content: center; flex-wrap: wrap; gap: 10px; }
+}
+
+
+

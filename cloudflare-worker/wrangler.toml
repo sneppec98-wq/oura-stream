@@ -1,0 +1,24 @@
+name = "oura-r2-worker"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# ── R2 Bucket Binding ──────────────────────────────────
+[[r2_buckets]]
+binding = "OURA_BUCKET"
+bucket_name = "oura-videos"
+
+# ── Public Environment Variables ──────────────────────
+[vars]
+R2_PUBLIC_URL = "https://pub-42b97bc36bd94743aa6e041e9773751d.r2.dev"
+R2_BUCKET_NAME = "oura-videos"
+
+# ── Secrets (isi lewat Cloudflare Dashboard atau wrangler secret) ─────
+# AUTH_SECRET → wrangler secret put AUTH_SECRET
+# R2_ACCESS_KEY_ID → wrangler secret put R2_ACCESS_KEY_ID
+# R2_SECRET_ACCESS_KEY → wrangler secret put R2_SECRET_ACCESS_KEY
+# R2_ACCOUNT_ID → wrangler secret put R2_ACCOUNT_ID
+
+# ── Routes (opsional jika pakai custom domain) ─────────
+# routes = [
+#   { pattern = "api.oura.namadomainmu.com/*", zone_name = "namadomainmu.com" }
+# ]
