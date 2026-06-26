@@ -94,3 +94,15 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: ''
+          
+      - name: Force Upload Updater Files
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            src-tauri/target/release/bundle/nsis/*.zip
+            src-tauri/target/release/bundle/nsis/*.sig
+            src-tauri/target/release/bundle/msi/*.zip
+            src-tauri/target/release/bundle/msi/*.sig
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
