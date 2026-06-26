@@ -30,6 +30,13 @@ export interface UploadDomRefs {
   btnAddEpisode: HTMLButtonElement;
   btnAutoDetectR2: HTMLButtonElement;
   elStatusBtns: NodeListOf<HTMLButtonElement>;
+  
+  // TMDB
+  btnTmdbSearch: HTMLButtonElement;
+  tmdbSearchModal: HTMLElement;
+  btnTmdbClose: HTMLButtonElement;
+  tmdbLoading: HTMLElement;
+  tmdbListContainer: HTMLElement;
 }
 
 export function getUploadDomRefs(): UploadDomRefs {
@@ -63,7 +70,14 @@ export function getUploadDomRefs(): UploadDomRefs {
     elUploadTitle: document.querySelector('#view-upload h1') as HTMLElement,
     elEpisodesList: document.getElementById('up-episodes-list')!,
     btnAddEpisode: document.getElementById('btn-add-episode') as HTMLButtonElement,
-    btnAutoDetectR2: document.getElementById('btn-auto-detect-r2') as HTMLButtonElement,
+    btnAutoDetectR2: document.getElementById('btn-r2-auto-detect') as HTMLButtonElement,
     elStatusBtns: document.querySelectorAll('#up-status-group .btn') as NodeListOf<HTMLButtonElement>,
+    
+    // TMDB
+    btnTmdbSearch: document.getElementById('btn-tmdb-search') as HTMLButtonElement,
+    tmdbSearchModal: document.getElementById('tmdb-search-modal')!,
+    btnTmdbClose: document.getElementById('btn-close-tmdb') as HTMLButtonElement,
+    tmdbLoading: document.getElementById('tmdb-loading')!,
+    tmdbListContainer: document.getElementById('tmdb-list-container')!,
   };
 }

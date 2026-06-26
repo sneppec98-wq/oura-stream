@@ -3,6 +3,7 @@ import { parseYearInput } from './helpers';
 import { renderEpisodes, renderSeasons, syncEpisodeMetadata, updateMatchaStorageUI } from './episodes';
 import { initializeR2Browser, fetchR2Files, autoDetectVideosFromR2 } from './r2';
 import { handleSubmit } from './submit';
+import { initializeTMDB } from './tmdb_ui';
 import type { UploadState, ToastType } from './types';
 
 export function setupUploadLogic(
@@ -468,6 +469,8 @@ export function setupUploadLogic(
   });
 
   dom.btnSubmit.addEventListener('click', async () => handleSubmit(state, dom, showToast));
+
+  initializeTMDB(state, dom, showToast);
 
   switchUploadTab('info');
   renderSeasons(state, dom, episodeRendererOptions);

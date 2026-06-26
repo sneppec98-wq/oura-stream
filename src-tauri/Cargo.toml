@@ -1,6 +1,6 @@
 [package]
 name = "oura-app"
-version = "2.0.1"
+version = "2.0.2"
 description = "Oura Video Management and Player"
 authors = ["Oura Developer"]
 edition = "2021"
