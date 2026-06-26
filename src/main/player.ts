@@ -1,5 +1,5 @@
 import type { FirestoreFilm, FirestoreEpisode } from "../firestore";
-import { getSeasons, getEpisodesBySeason, getFirstPlayableEpisode, formatFilmType } from "../firestore";
+import { getFirstPlayableEpisode, formatFilmType } from "../firestore";
 import { getWatchProgress, saveWatchProgress } from "./watch";
 import { appState, isSuperAdmin } from "./state";
 import { showToast } from "./dialogs";

@@ -8,14 +8,10 @@ export async function checkForUpdates(manualCheck = false) {
     if (update) {
       console.log(`found update ${update.version} from ${update.date} with notes ${update.body}`);
       
-      const shouldUpdate = await new Promise<boolean>((resolve) => {
-        showCustomConfirm(
-          "Update Tersedia! 🎉", 
-          `Versi baru ${update.version} sudah tersedia.\nCatatan: ${update.body || "Peningkatan fitur dan perbaikan bug."}\n\nApakah Anda ingin mengunduh dan memperbarui sekarang?`, 
-          () => resolve(true), 
-          () => resolve(false)
-        );
-      });
+      const shouldUpdate = await showCustomConfirm(
+        "Update Tersedia! 🎉", 
+        `Versi baru ${update.version} sudah tersedia.\nCatatan: ${update.body || "Peningkatan fitur dan perbaikan bug."}\n\nApakah Anda ingin mengunduh dan memperbarui sekarang?`
+      );
 
       if (shouldUpdate) {
         showToast("Sedang mengunduh update... Mohon tunggu.", "info");

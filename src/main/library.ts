@@ -1,8 +1,8 @@
 import type { FirestoreFilm, FirestoreEpisode } from "../firestore";
-import { getSeasons, getEpisodesBySeason, getFirstPlayableEpisode, formatFilmType, loadTrendingFilms, loadRecentlyAdded, fetchFilmsByIds, searchFilmsFirestore, loadFilmsPaginated, deleteFilmFirestore } from "../firestore";
+import { getFirstPlayableEpisode, loadTrendingFilms, loadRecentlyAdded, fetchFilmsByIds, searchFilmsFirestore, loadFilmsPaginated } from "../firestore";
 import { getWatchProgress } from "./watch";
-import { showToast, showCustomConfirm } from "./dialogs";
-import { appState, disableMatchaManageMode, saveAppState, isSuperAdmin } from "./state";
+import { showToast } from "./dialogs";
+import { appState, disableMatchaManageMode } from "./state";
 import { playEpisode } from "./player";
 import { createMediaCardHTML, createContinueWatchingCardHTML } from "./ui/CardBuilder";
 import { renderHeroBanner, initRowScrollButtons } from "./ui/Carousel";
