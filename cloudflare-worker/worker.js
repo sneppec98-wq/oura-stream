@@ -249,6 +249,62 @@ export default {
         }
       }
 
+      if (request.method === 'GET' && path === '/updater') {
+        const repo = 'sneppec98-wq/oura-stream';
+        const ghUrl = `https://api.github.com/repos/${repo}/releases/latest`;
+        
+        const ghResp = await fetch(ghUrl, {
+          headers: {
+            'User-Agent': 'Cloudflare-Worker-Oura-Updater',
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (!ghResp.ok) {
+          return new Response(JSON.stringify({ error: 'Gagal menghubungi GitHub' }), { status: 500, headers: { ...CORS, 'Content-Type': 'application/json' } });
+        }
+
+        const release = await ghResp.json();
+        
+        let sigUrl = '';
+        let installerUrl = '';
+
+        for (const asset of release.assets) {
+          if (asset.name.endsWith('.msi.zip.sig')) sigUrl = asset.browser_download_url;
+          if (asset.name.endsWith('.msi.zip')) installerUrl = asset.browser_download_url;
+        }
+
+        if (!sigUrl || !installerUrl) {
+          // Fallback to NSIS if MSI is not found
+          for (const asset of release.assets) {
+            if (asset.name.endsWith('setup.exe.zip.sig')) sigUrl = asset.browser_download_url;
+            if (asset.name.endsWith('setup.exe.zip')) installerUrl = asset.browser_download_url;
+          }
+        }
+
+        if (!sigUrl || !installerUrl) {
+          return new Response(JSON.stringify({ error: 'Aset installer tidak ditemukan di rilis terbaru' }), { status: 404, headers: { ...CORS, 'Content-Type': 'application/json' } });
+        }
+
+        // Fetch signature text
+        const sigResp = await fetch(sigUrl);
+        const signature = await sigResp.text();
+
+        const updaterJson = {
+          version: release.tag_name.replace('v', ''),
+          notes: release.body || 'Update terbaru untuk Oura Stream',
+          pub_date: release.published_at,
+          platforms: {
+            'windows-x86_64': {
+              signature: signature.trim(),
+              url: installerUrl
+            }
+          }
+        };
+
+        return new Response(JSON.stringify(updaterJson), { headers: { ...CORS, 'Content-Type': 'application/json' } });
+      }
+
       if (path === '/health') return new Response('ok', { headers: CORS });
       return new Response('Not Found', { status: 404, headers: CORS });
     } catch (err) {
