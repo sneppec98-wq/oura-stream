@@ -16,6 +16,8 @@ import type { AppSettings } from "./types";
 import { showToast } from "./dialogs";
 import { initializeDraftsView } from "./drafts";
 
+import { checkForUpdates } from "./updater";
+
 window.addEventListener("DOMContentLoaded", async () => {
   const isTauri = typeof window !== "undefined" && (window as any).__TAURI_INTERNALS__ !== undefined;
 
@@ -27,6 +29,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     } catch (err) {
       console.error("Failed to load settings:", err);
     }
+    
+    // Check for app updates silently on startup
+    checkForUpdates(false);
   }
 
   bindAppEvents();

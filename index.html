@@ -455,59 +455,38 @@
               <h1 class="view-title">Pengaturan &amp; Diagnostik</h1>
             </div>
 
-            <div class="settings-container" style="max-width: 1000px; display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px; align-items: start; margin-top: 10px;">
-              <!-- Left Column: App Info & Security -->
-              <div style="display: flex; flex-direction: column; gap: 24px;">
-                <!-- Info Card -->
+            <div class="settings-container" style="max-width: 768px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; padding-top: 10px;">
+                <!-- App Update & Info Card -->
                 <div class="settings-card glass" style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
                   <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                    <div class="provider-badge firebase" style="background: rgba(239, 18, 35, 0.15); color: var(--accent-primary); border: 1px solid rgba(239, 18, 35, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">🎬</div>
-                    <h2 style="font-size: 16px; font-weight: 700;">Oura Desktop Player</h2>
+                    <div class="provider-badge update-badge" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">🚀</div>
+                    <h2 style="font-size: 16px; font-weight: 700;">Update &amp; Info Aplikasi</h2>
                   </div>
-                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Aplikasi desktop ini terhubung secara otomatis. Library media disinkronkan secara real-time dari database lokal.</p>
-                  <div style="margin-top: 16px; font-size: 13px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 8px;">
-                    <div><strong>Versi Aplikasi:</strong> v0.1.0 (Release Build)</div>
-                    <div><strong>Mode Playback:</strong> Direct URL &amp; Iframe Embed</div>
-                    <div><strong>Status Database:</strong> Terhubung</div>
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">Aplikasi tersinkronisasi secara real-time dari database lokal. Cek apakah ada versi terbaru yang tersedia.</p>
+                  
+                  <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); gap: 16px; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 24px;">
+                      <div><span style="color: var(--text-secondary); font-size: 12px;">Versi:</span> <strong style="color: #fff; font-size: 13px;">v0.1.0</strong></div>
+                      <div><span style="color: var(--text-secondary); font-size: 12px;">Database:</span> <strong style="color: #10B981; font-size: 13px;">Terhubung</strong></div>
+                    </div>
+                    <button class="btn btn-primary btn-small" id="btn-check-updates" style="padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; color: #fff; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none;">Cek Update</button>
                   </div>
                 </div>
 
                 <!-- Security Card -->
                 <div class="settings-card glass" style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
                   <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                    <div class="provider-badge security" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">🔒</div>
+                    <div class="provider-badge security" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">🔒</div>
                     <h2 style="font-size: 16px; font-weight: 700;">Keamanan &amp; Hak Akses</h2>
                   </div>
-                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Atur proteksi PIN untuk mengakses folder Matcha, mengubah setelan API, serta melakukan browse file.</p>
-                  <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px;">
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">Atur proteksi PIN untuk mengakses folder rahasia dan mengamankan aplikasi.</p>
+                  
+                  <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.2); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
                     <div>
                       <span style="font-size: 13px; font-weight: 600; color: #fff; display: block;">Kunci PIN Keamanan</span>
                       <span id="matcha-lock-status-text" style="font-size: 12px; color: var(--text-secondary);">Status: Tidak Aktif</span>
                     </div>
-                    <button class="btn btn-primary btn-small" id="btn-toggle-matcha-lock" style="padding: 6px 16px; border-radius: 6px; font-size: 12px; cursor: pointer; border: none; color: #fff; background: var(--accent-gradient);">Aktifkan Kunci</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right Column: API Settings & Logs -->
-              <div style="display: flex; flex-direction: column; gap: 24px;">
-                <!-- Byse.sx API Card -->
-                <div class="settings-card glass" style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
-                  <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                    <div class="provider-badge byse" style="background: rgba(139, 195, 74, 0.15); color: #8bc34a; border: 1px solid rgba(139, 195, 74, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">📁</div>
-                    <h2 style="font-size: 16px; font-weight: 700;">Integrasi API Byse.sx</h2>
-                  </div>
-                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">Atur API Key dan Domain Byse.sx untuk mengimpor file video secara langsung tanpa perlu membuka browser.</p>
-                  <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <div class="form-group">
-                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; display: block;">API Base URL</label>
-                      <input type="text" id="settings-byse-url" class="input" value="https://api.byse.sx/file/list" style="width: 100%;" />
-                    </div>
-                    <div class="form-group">
-                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; display: block;">API Key Byse.sx</label>
-                      <input type="password" id="settings-byse-key" class="input" placeholder="Masukkan API Key Anda..." style="width: 100%;" />
-                    </div>
-                    <button class="btn btn-primary" id="btn-save-byse-settings" style="margin-top: 6px; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; color: #fff; background: var(--accent-gradient); border: none;">Simpan Setelan Byse.sx</button>
+                    <button class="btn btn-primary btn-small" id="btn-toggle-matcha-lock" style="padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; color: #fff; background: var(--accent-gradient);">Aktifkan Kunci</button>
                   </div>
                 </div>
 
@@ -517,7 +496,7 @@
                     <div class="provider-badge r2" style="background: rgba(246, 130, 31, 0.15); color: #F6821F; border: 1px solid rgba(246, 130, 31, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">☁️</div>
                     <h2 style="font-size: 16px; font-weight: 700;">Cloudflare R2 Storage</h2>
                   </div>
-                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">Pantau total penggunaan penyimpanan untuk seluruh bucket Cloudflare R2 Anda.</p>
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">Pantau penggunaan kapasitas penyimpanan Cloudflare R2 Anda.</p>
                   
                   <div id="r2-storage-loading" class="spinner-center" style="display: none; justify-content: center; padding: 12px; align-items: center; gap: 8px;">
                     <div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div>
@@ -526,16 +505,37 @@
                   
                   <div id="r2-storage-error" class="alert alert-error" style="display: none; padding: 10px; font-size: 12px; margin-bottom: 12px;"></div>
                   
-                  <div id="r2-storage-list" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                  <div id="r2-storage-list" style="display: flex; flex-direction: column; gap: 10px;">
                     <!-- Bucket stats will be loaded here -->
                   </div>
 
-                  <div style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 13px; color: #fff; font-weight: 600;">Total Storage:</span>
-                    <span id="r2-storage-total" style="font-size: 14px; color: #F6821F; font-weight: 700;">0 B</span>
+                  <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                    <div>
+                      <span style="font-size: 12px; color: var(--text-secondary); display: block;">Total Penggunaan Storage:</span>
+                      <strong id="r2-storage-total" style="font-size: 14px; color: #F6821F;">0 B</strong>
+                    </div>
+                    <button class="btn btn-secondary btn-small" id="btn-refresh-r2-storage" style="padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; color: #fff; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">Refresh Statistik</button>
                   </div>
+                </div>
 
-                  <button class="btn btn-primary" id="btn-refresh-r2-storage" style="margin-top: 16px; padding: 10px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; color: #fff; background: var(--accent-gradient); border: none;">Refresh Statistik R2</button>
+                <!-- Byse.sx API Card -->
+                <div class="settings-card glass" style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                  <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <div class="provider-badge byse" style="background: rgba(139, 195, 74, 0.15); color: #8bc34a; border: 1px solid rgba(139, 195, 74, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">📁</div>
+                    <h2 style="font-size: 16px; font-weight: 700;">Integrasi Byse.sx</h2>
+                  </div>
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">Atur API Key untuk mengimpor file secara langsung tanpa buka browser.</p>
+                  <div style="display: flex; flex-direction: column; gap: 12px; background: rgba(0,0,0,0.2); padding: 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="form-group">
+                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; display: block;">API Base URL</label>
+                      <input type="text" id="settings-byse-url" class="input" value="https://api.byse.sx/file/list" style="width: 100%; font-size: 13px;" />
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; display: block;">API Key</label>
+                      <input type="password" id="settings-byse-key" class="input" placeholder="Masukkan API Key Anda..." style="width: 100%; font-size: 13px;" />
+                    </div>
+                    <button class="btn btn-primary" id="btn-save-byse-settings" style="margin-top: 4px; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 12.5px; cursor: pointer; color: #fff; background: var(--accent-gradient); border: none;">Simpan API Key</button>
+                  </div>
                 </div>
 
                 <!-- Console & Error Log Card -->
@@ -544,10 +544,9 @@
                     <div class="provider-badge console-badge" style="background: rgba(239, 18, 35, 0.15); color: #EF1223; border: 1px solid rgba(239, 18, 35, 0.25); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">💻</div>
                     <h2 style="font-size: 16px; font-weight: 700;">Console &amp; Error Log</h2>
                   </div>
-                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Gunakan fitur ini untuk melihat riwayat aktivitas dan log error jika aplikasi mengalami kegagalan (lag / gagal upload).</p>
-                  <button class="btn btn-primary" id="btn-open-console-log" style="padding: 10px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; color: #fff; background: var(--accent-gradient); border: none;">Buka Konsol Log Aplikasi</button>
+                  <p class="card-desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">Lihat riwayat aktivitas sistem dan log error (untuk developer/diagnostik).</p>
+                  <button class="btn btn-secondary" id="btn-open-console-log" style="padding: 10px; width: 100%; border-radius: 8px; font-size: 12.5px; font-weight: 600; cursor: pointer; color: #fff; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">Buka Jendela Konsol</button>
                 </div>
-              </div>
             </div>
           </section>
 

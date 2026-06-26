@@ -7,6 +7,8 @@ pub mod models;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_process::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         // Registrasi state global untuk port proxy dan cache token Google Drive
         .manage(commands::streaming::AppState {

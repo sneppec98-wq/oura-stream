@@ -24,8 +24,14 @@ function loadSettingsToForm() {
   }
 }
 
+import { checkForUpdates } from "./updater";
+
 export function bindAppEvents() {
   loadSettingsToForm();
+
+  document.getElementById("btn-check-updates")?.addEventListener("click", () => {
+    checkForUpdates(true);
+  });
 
   // Use event delegation for submenus to survive DOM updates
   document.body.addEventListener("click", (e) => {

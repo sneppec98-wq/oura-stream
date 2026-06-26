@@ -1,7 +1,7 @@
 {
   "name": "oura-stream",
   "private": true,
-  "version": "0.1.0",
+  "version": "2.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +12,8 @@
   "dependencies": {
     "@tauri-apps/api": "^2.11.0",
     "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-process": "^2",
+    "@tauri-apps/plugin-updater": "^2",
     "firebase": "^12.14.0"
   },
   "devDependencies": {
