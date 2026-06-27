@@ -51,7 +51,7 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
           NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-        run: npm run tauri android build -- --apk
+        run: npm run tauri android build -- --apk --debug
         
       - name: Upload APK to Release
         uses: softprops/action-gh-release@v1
